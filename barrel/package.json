@@ -1,0 +1,10 @@
+{
+  "name": "barrel",
+  "version": "3.0.0",
+  "dependencies": {
+    "aws-iot-device-sdk": "*",
+    "mmm-usonic": "*",
+    "onoff": "*",
+    "node-cleanup": "*"
+  }
+}
