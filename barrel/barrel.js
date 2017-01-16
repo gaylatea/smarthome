@@ -91,7 +91,7 @@ device.on('message', function(topic, payload) {
   // as appropriate.
   Object.keys(commands).forEach(function(k){
     var v = commands[k];
-    commandHandlers[k](v);
+    setImmediate(commandHandlers[k], v);
   });
 });
 
