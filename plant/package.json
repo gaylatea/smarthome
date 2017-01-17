@@ -1,0 +1,8 @@
+{
+  "name": "plant",
+  "version": "1.0.0",
+  "dependencies": {
+    "aws-iot-device-sdk": "*",
+    "mmm-gpio": "*"
+  }
+}

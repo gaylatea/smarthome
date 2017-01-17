@@ -1,0 +1,17 @@
+[Unit]
+Description=IOT Watering Controller
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/pi/iot/plant.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=controller
+User=root
+Group=root
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/iot
+
+[Install]
+WantedBy=multi-user.target
