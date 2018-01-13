@@ -7,8 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/golang/glog"
 )
@@ -92,6 +94,31 @@ func main() {
 	}
 
 	glog.Infof("Registration complete.")
+
+	go func() {
+		// report water measurements
+		for {
+			uid := generateUID()
+			c := make(chan []string, 0)
+			uids[uid] = c
+			defer func() {
+				delete(uids, uid)
+			}()
+
+			level := rand.Float64()
+			send := fmt.Sprintf("%s\n", fmt.Sprintf("%s METRIC level %f", uid, level))
+			if _, err := conn.Write([]byte(send)); err != nil {
+				glog.Fatalf("couldn't send metric: %v", err)
+			}
+
+			ret := <-c
+			if ret[0] != "ACK\n" {
+				glog.Errorf("return failed failed: %s", output)
+			}
+
+			time.Sleep(10 * time.Second)
+		}
+	}()
 
 	for {
 		output, err := connReader.ReadString('\n')
